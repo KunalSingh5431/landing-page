@@ -79,7 +79,7 @@ const LegendPill = styled(Box)({
 });
 
 // status icons
-const statusCell = (status) => {
+const statusCell = (status: boolean | null | undefined) => {
   if (status === true) return <CheckCircleIcon color="success" fontSize="small" />;
   if (status === false) return <CancelIcon color="error" fontSize="small" />;
   return <RemoveIcon color="action" fontSize="small" />;

@@ -19,6 +19,22 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import HubIcon from "@mui/icons-material/Hub";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
+import type { OverridableComponent } from "@mui/material/OverridableComponent";
+import type { SvgIconTypeMap } from "@mui/material/SvgIcon";
+
+type LayerFeature = {
+  text: string;
+  icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
+};
+
+type Layer = {
+  number: string;
+  title: string;
+  description: string;
+  features: LayerFeature[];
+  side: "left" | "right";
+};
+
 const Section = styled(Box)({
   position: "relative",
   overflow: "hidden",
@@ -216,49 +232,49 @@ function ConnectorSegment() {
 }
 
 export default function HowItWorksSection() {
-  const layers = [
-    {
-      number: "01",
-      title: "Apps Layer",
-      description: "Everything your business needs—built natively into one platform.",
-      features: [
-        { icon: TaskAltIcon, text: "TaskMatic" },
-        { icon: RouteIcon, text: "xNetic" },
-        { icon: GridViewIcon, text: "Forms" },
-        { icon: HubIcon, text: "Board" },
-        { icon: ChatIcon, text: "Chat" },
-        { icon: MailIcon, text: "Mail" },
-        { icon: BarChartIcon, text: "WorkAnalytics" },
-      ],
-      side: "left" as const,
-    },
-    {
-      number: "02",
-      title: "AI & WAO Engine",
-      description: "Intelligence that runs the workflow—automatically and reliably.",
-      features: [
-        { text: "NLP-driven task creation from any text" },
-        { text: "Automated workflows that adapt to your process" },
-        { text: "Document → task conversion in seconds" },
-        { text: "Auto-summaries of meetings and threads" },
-        { text: "Smart routing based on content + context" },
-        { text: "Persona insights and journey intelligence" },
-      ],
-      side: "right" as const,
-    },
-    {
-      number: "03",
-      title: "Unified Workspace",
-      description: "One platform. One truth. Zero switching.",
-      features: [
-        { icon: TaskAltIcon, text: "One login" },
-        { icon: TaskAltIcon, text: "One search" },
-        { icon: TaskAltIcon, text: "One knowledge plane" },
-        { icon: TaskAltIcon, text: "Zero switching" },
-      ],
-      side: "left" as const,
-    },
-  ];
+  const layers: Layer[] = [
+  {
+    number: "01",
+    title: "Apps Layer",
+    description: "Everything your business needs—built natively into one platform.",
+    features: [
+      { icon: TaskAltIcon, text: "TaskMatic" },
+      { icon: RouteIcon, text: "xNetic" },
+      { icon: GridViewIcon, text: "Forms" },
+      { icon: HubIcon, text: "Board" },
+      { icon: ChatIcon, text: "Chat" },
+      { icon: MailIcon, text: "Mail" },
+      { icon: BarChartIcon, text: "WorkAnalytics" },
+    ],
+    side: "left",
+  },
+  {
+    number: "02",
+    title: "AI & WAO Engine",
+    description: "Intelligence that runs the workflow—automatically and reliably.",
+    features: [
+      { text: "NLP-driven task creation from any text" },
+      { text: "Automated workflows that adapt to your process" },
+      { text: "Document → task conversion in seconds" },
+      { text: "Auto-summaries of meetings and threads" },
+      { text: "Smart routing based on content + context" },
+      { text: "Persona insights and journey intelligence" },
+    ],
+    side: "right",
+  },
+  {
+    number: "03",
+    title: "Unified Workspace",
+    description: "One platform. One truth. Zero switching.",
+    features: [
+      { icon: TaskAltIcon, text: "One login" },
+      { icon: TaskAltIcon, text: "One search" },
+      { icon: TaskAltIcon, text: "One knowledge plane" },
+      { icon: TaskAltIcon, text: "Zero switching" },
+    ],
+    side: "left",
+  },
+];
 
   return (
     <Section>
@@ -332,17 +348,17 @@ export default function HowItWorksSection() {
 
                       <Box sx={{ display: "flex", flexDirection: "column", gap: 1.4 }}>
                         {layer.features.map((feature, fIdx) => (
-                          <Box key={fIdx}>
-                            {feature.icon ? (
-                              <FeaturePill>
-                                <feature.icon color="primary" fontSize="small" />
-                                <Typography variant="body2">{feature.text}</Typography>
-                              </FeaturePill>
-                            ) : (
-                              <FeatureItem text={feature.text} />
-                            )}
-                          </Box>
-                        ))}
+                            <Box key={fIdx}>
+                              {feature.icon ? (
+                                <FeaturePill>
+                                  <feature.icon color="primary" fontSize="small" />
+                                  <Typography variant="body2">{feature.text}</Typography>
+                                </FeaturePill>
+                              ) : (
+                                <FeatureItem text={feature.text} />
+                              )}
+                            </Box>
+                          ))}
                       </Box>
                     </Box>
                   </Box>

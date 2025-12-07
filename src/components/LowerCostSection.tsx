@@ -5,24 +5,24 @@ import {
   Box,
   Typography,
   Container,
-  Grid,
   Card,
   CardContent,
   Chip,
+  Stack,
   styled,
 } from "@mui/material";
+import type { TypographyProps } from "@mui/material/Typography";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Section = styled(Box)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
-  paddingTop: theme.spacing(18), // more breathing room (top)
-  paddingBottom: theme.spacing(18), // more breathing room (bottom)
+  paddingTop: theme.spacing(18),
+  paddingBottom: theme.spacing(18),
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
-  background:
-    "linear-gradient(135deg, #070A18 0%, #101633 46%, #070A18 100%)",
+  background: "linear-gradient(135deg, #070A18 0%, #101633 46%, #070A18 100%)",
 }));
 
 const Ambient = styled(Box)({
@@ -34,15 +34,25 @@ const Ambient = styled(Box)({
     "radial-gradient(1020px 560px at 86% 14%, rgba(0, 255, 214, 0.22), transparent 74%)",
 });
 
-const GlassCard = styled(Card)(({ theme }) => ({
+const Price = styled((props: TypographyProps) => <Typography {...props} />)({
+  fontWeight: 1000,
+  letterSpacing: -0.5,
+});
+
+const MiniLabel = styled((props: TypographyProps) => <Typography {...props} />)({
+  fontWeight: 900,
+  letterSpacing: 0.12,
+  opacity: 0.92,
+});
+
+const GlassCard = styled(Card)({
   height: "100%",
   borderRadius: 22,
   background: "rgba(255,255,255,0.08)",
   backdropFilter: "blur(14px)",
   WebkitBackdropFilter: "blur(14px)",
   border: "1px solid rgba(255,255,255,0.18)",
-  boxShadow:
-    "0 24px 64px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.08)",
+  boxShadow: "0 24px 64px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.08)",
   transition: "transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease",
   position: "relative",
   overflow: "hidden",
@@ -61,17 +71,6 @@ const GlassCard = styled(Card)(({ theme }) => ({
     opacity: 0.9,
     pointerEvents: "none",
   },
-}));
-
-const Price = styled(Typography)({
-  fontWeight: 1000,
-  letterSpacing: -0.5,
-});
-
-const MiniLabel = styled(Typography)({
-  fontWeight: 900,
-  letterSpacing: 0.12,
-  opacity: 0.92,
 });
 
 const CostComparisonCard = ({
@@ -105,15 +104,7 @@ const CostComparisonCard = ({
       />
     ) : null}
 
-    <CardContent
-      sx={{
-        p: 3,
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: 1.4,
-      }}
-    >
+    <CardContent sx={{ p: 3, height: "100%", display: "flex", flexDirection: "column", gap: 1.4 }}>
       <MiniLabel variant="caption">{description}</MiniLabel>
 
       <Typography
@@ -148,7 +139,6 @@ export default function LowerCostSection() {
   return (
     <Section>
       <Ambient />
-
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <Typography
           variant="h3"
@@ -168,8 +158,14 @@ export default function LowerCostSection() {
           “Craftsmanship all the way down” — fewer tools, fewer invoices, sharper execution.
         </Typography>
 
-        <Grid container spacing={5} alignItems="center" justifyContent="center">
-          <Grid item xs={12} md={5}>
+        {/* ✅ Replaced Grid with Stack + Boxes (no item/container props required) */}
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={5}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box sx={{ width: { xs: "100%", md: "41.666%" } }}>
             <CostComparisonCard
               title="Traditional SaaS Stack"
               description="Per user, per year"
@@ -185,28 +181,27 @@ export default function LowerCostSection() {
               price="$144 + $96 + … ≈ $1000"
               savings={null}
             />
-          </Grid>
+          </Box>
 
-          <Grid item xs={12} md={2}>
-            <Box
+          <Box
+            sx={{
+              width: { xs: "100%", md: 120 },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              py: { xs: 2, md: 0 },
+            }}
+          >
+            <ArrowForwardIcon
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                py: { xs: 2, md: 0 },
+                fontSize: 54,
+                color: "primary.main",
+                filter: "drop-shadow(0 16px 24px rgba(0,0,0,0.55))",
               }}
-            >
-              <ArrowForwardIcon
-                sx={{
-                  fontSize: 54,
-                  color: "primary.main",
-                  filter: "drop-shadow(0 16px 24px rgba(0,0,0,0.55))",
-                }}
-              />
-            </Box>
-          </Grid>
+            />
+          </Box>
 
-          <Grid item xs={12} md={5}>
+          <Box sx={{ width: { xs: "100%", md: "41.666%" } }}>
             <CostComparisonCard
               title="WorkElate Full Suite"
               description="Per user, per year"
@@ -222,8 +217,8 @@ export default function LowerCostSection() {
               price="$150"
               savings="Save 85%"
             />
-          </Grid>
-        </Grid>
+          </Box>
+        </Stack>
       </Container>
     </Section>
   );
